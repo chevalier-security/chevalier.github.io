@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cyber Security | Chevalier</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* ---------- LINK RESET ---------- */
+a { text-decoration: none; color: inherit; }
+a:visited, a:hover, a:active { color: inherit; }
+
+/* ---------- COLOR SYSTEM ---------- */
+:root {
+    --bg: #140f0f;
+    --panel: #15091a;
+    --accent: #632e56;
+    --accent-soft: rgba(120,53,85,0.15);
+    --text: #e6edf7;
+    --muted: #bf8fa5;
+}
+
+/* ---------- BASE ---------- */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(27, 10, 28, 0.8);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    z-index: 1000;
+}
+
+nav {
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.logo span { color: var(--accent); }
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    color: var(--muted);
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+nav a:hover { color: var(--accent); }
+
+/* ---------- HERO ---------- */
+.hero {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+    background: radial-gradient(circle at top left, var(--accent-soft), transparent 50%);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 700px;
+    margin: auto;
+}
+
+/* ---------- SECTIONS ---------- */
+section {
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.section-title p { color: var(--muted); }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: var(--panel);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(99,46,86,0.25);
+}
+
+.card h3 { margin-bottom: 1rem; }
+.card p { color: var(--muted); }
+
+/* ---------- PROCESS SECTION ---------- */
+.process {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+}
+
+.process-step {
+    background: var(--panel);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+}
+
+.process-step span {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
+/* ---------- CTA ---------- */
+.cta {
+    text-align: center;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 3rem 2rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.cta button {
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s ease;
+}
+
+.cta button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(99,46,86,0.4);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: var(--muted);
+}
+
+/* ---------- ANIMATION ---------- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s ease;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<nav>
+<div class="logo"><a href="index.html">CHEVALIER<span>.</span></a></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="access-control.html">Access Control</a></li>
+<li><a href="it-infrastructure.html">IT Infrastructure</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero">
+<div>
+<h1>Cyber Security</h1>
+<p>
+Proactive digital defense architecture engineered to anticipate, detect,
+and neutralize modern threat vectors across enterprise environments.
+</p>
+</div>
+</section>
+
+<section>
+<div class="section-title fade-in">
+<h2>Our Security Process</h2>
+<p>Structured methodology for resilient protection.</p>
+</div>
+
+<div class="process fade-in">
+<div class="process-step">
+<span>01</span>
+<p>Assess infrastructure and identify risk exposure.</p>
+</div>
+<div class="process-step">
+<span>02</span>
+<p>Design layered defense architecture.</p>
+</div>
+<div class="process-step">
+<span>03</span>
+<p>Implement and harden systems.</p>
+</div>
+<div class="process-step">
+<span>04</span>
+<p>Monitor, respond, and continuously improve.</p>
+</div>
+</div>
+</section>
+
+<section>
+<div class="section-title fade-in">
+<h2>Core Services</h2>
+<p>Comprehensive digital protection across all layers.</p>
+</div>
+
+<div class="grid">
+<div class="card fade-in">
+<h3>Penetration Testing</h3>
+<p>Controlled adversarial simulations to identify exploitable vulnerabilities before attackers do.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Network Hardening</h3>
+<p>Secure configuration, firewall architecture, and zero-trust enforcement models.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Cloud Security Engineering</h3>
+<p>Secure AWS, Azure, and hybrid deployments with identity governance and monitoring.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Endpoint Defense</h3>
+<p>Advanced endpoint detection and response systems to mitigate active threats.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Threat Modeling</h3>
+<p>Strategic risk mapping and attack surface analysis tailored to operational realities.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Compliance & Audit</h3>
+<p>Security posture alignment with industry standards and regulatory frameworks.</p>
+</div>
+</div>
+</section>
+
+<section>
+<div class="cta fade-in">
+<h2>Strengthen Your Digital Defense</h2>
+<p style="color:var(--muted);">
+Confidential security assessments available upon request.
+</p>
+<button onclick="alert('Cyber security consultation requested.')">
+Request Security Consultation
+</button>
+</div>
+</section>
+
+<footer>
+© 2026 Chevalier, Advanced Security. All rights reserved.
+</footer>
+
+<script>
+const faders = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+});
+
+faders.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
