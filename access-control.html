@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Access Control Systems | Chevalier</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* ---------- LINK RESET ---------- */
+a { text-decoration: none; color: inherit; }
+a:visited, a:hover, a:active { color: inherit; }
+
+/* ---------- COLOR SYSTEM ---------- */
+:root {
+    --bg: #140f0f;
+    --panel: #15091a;
+    --accent: #632e56;
+    --accent-soft: rgba(120,53,85,0.15);
+    --text: #e6edf7;
+    --muted: #bf8fa5;
+}
+
+/* ---------- BASE ---------- */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(27, 10, 28, 0.8);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    z-index: 1000;
+}
+
+nav {
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.logo span { color: var(--accent); }
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    color: var(--muted);
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+nav a:hover { color: var(--accent); }
+
+/* ---------- HERO ---------- */
+.hero {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+    background: radial-gradient(circle at top right, var(--accent-soft), transparent 50%);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 700px;
+    margin: auto;
+}
+
+/* ---------- SECTIONS ---------- */
+section {
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.section-title p { color: var(--muted); }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: var(--panel);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(99,46,86,0.25);
+}
+
+.card h3 { margin-bottom: 1rem; }
+.card p { color: var(--muted); }
+
+/* ---------- CTA ---------- */
+.cta {
+    text-align: center;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 3rem 2rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.cta button {
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s ease;
+}
+
+.cta button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(99,46,86,0.4);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: var(--muted);
+}
+
+/* ---------- ANIMATION ---------- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s ease;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<nav>
+<div class="logo"><a href="index.html">CHEVALIER<span>.</span></a></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="cyber-security.html">Cyber Security</a></li>
+<li><a href="it-infrastructure.html">IT Infrastructure</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero">
+<div>
+<h1>Access Control Systems</h1>
+<p>
+Precision-engineered physical security ecosystems designed to protect
+assets, personnel, and infrastructure through layered authentication and intelligent facility architecture.
+</p>
+</div>
+</section>
+
+<section>
+<div class="section-title fade-in">
+<h2>Core Capabilities</h2>
+<p>Enterprise-grade physical security architecture.</p>
+</div>
+
+<div class="grid">
+<div class="card fade-in">
+<h3>Biometric Authentication</h3>
+<p>Fingerprint, facial recognition, and multi-factor biometric systems for sensitive access zones.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Smart Badge & RFID Systems</h3>
+<p>Encrypted badge issuance, credential lifecycle management, and zone-based permissions.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Master Key Architecture</h3>
+<p>Hierarchical key systems engineered for operational control without compromising security integrity.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Integrated Surveillance</h3>
+<p>Access event logging, video integration, and anomaly detection across secure facilities.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Facility Risk Assessment</h3>
+<p>On-site vulnerability analysis and layered defense planning for commercial and high-risk environments.</p>
+</div>
+
+<div class="card fade-in">
+<h3>Unified Physical-Digital Security</h3>
+<p>Bridging physical access controls with cybersecurity monitoring systems for cohesive protection.</p>
+</div>
+</div>
+</section>
+
+<section>
+<div class="cta fade-in">
+<h2>Secure Your Infrastructure</h2>
+<p style="color:var(--muted);">
+Consultations available for enterprise and high-security environments.
+</p>
+<button onclick="alert('Consultation request submitted.')">
+Request Access Control Consultation
+</button>
+</div>
+</section>
+
+<footer>
+© 2026 Chevalier, Advanced Security. All rights reserved.
+</footer>
+
+<script>
+const faders = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+});
+
+faders.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
