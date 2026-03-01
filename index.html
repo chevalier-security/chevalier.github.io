@@ -153,7 +153,32 @@ section {
 .section-title p {
     color: var(--muted);
 }
+/* ---------- CTA ---------- */
+.cta {
+    text-align: center;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 3rem 2rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
 
+.cta button {
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s ease;
+}
+
+.cta button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(99,46,86,0.4);
+}
+    
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -294,11 +319,9 @@ footer {
 
 <a href="contact.html">
 <section id="contact">
-    <div class="section-title fade-in">
+    <div class="cta fade-in">
         <h2>Contact</h2>
         <p>Secure consultations available upon request.</p>
-    </div>
-    <div style="text-align:center;">
         <p style="color:var(--muted); margin-bottom:1rem;">
             info.chevalier@proton.me
         </p>
