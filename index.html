@@ -232,10 +232,22 @@ footer {
     z-index: 1100;
 }
 
+#data-stream {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(0.6px);
+}
+
 </style>
 </head>
 
 <body>
+
+<canvas id="data-stream"></canvas>
 
 <header>
     <nav>
@@ -343,7 +355,7 @@ footer {
 </footer>
 
 <script>
-function scrollToSection(id) {
+    function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -358,6 +370,69 @@ const observer = new IntersectionObserver(entries => {
 });
 
 faders.forEach(el => observer.observe(el));
+
+const canvas = document.getElementById("data-stream");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const fontSize = 14;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(0);
+
+const characters = "01ABCDEF:/.-[]{}<>#%&$";
+
+function randomFragment() {
+    const fragments = [
+        "192.168." + Math.floor(Math.random()*255),
+        "10.0." + Math.floor(Math.random()*255),
+        "SSL",
+        "TLS",
+        "SHA256",
+        "AUTH",
+        "VERIFY",
+        "ACCESS",
+        "OSINT",
+        "NODE",
+        "PORT"
+    ];
+    return fragments[Math.floor(Math.random() * fragments.length)];
+}
+
+function draw() {
+    ctx.fillStyle = "rgba(20,15,15,0.178)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "rgba(99,46,86,0.6)";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+
+        let text;
+
+        if (Math.random() > 0.992) {
+            text = randomFragment();
+        } else {
+            text = characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+
+        drops[i]++;
+    }
+}
+
+setInterval(draw, 50);
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 </script>
 
 </body>
