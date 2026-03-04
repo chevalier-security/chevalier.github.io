@@ -184,9 +184,21 @@ footer {
     transform: translateY(0);
 }
 
+#access-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
 </style>
 </head>
 <body>
+
+<canvas id="access-grid"></canvas>
 
 <header>
 <nav>
@@ -254,11 +266,9 @@ assets, personnel, and infrastructure through layered authentication and intelli
 <p style="color:var(--muted);">
 Consultations available for enterprise and high-security environments.
 </p>
-<a href="contact.html">
-<button>
+<button onclick="alert('Consultation request submitted.')">
 Request Access Control Consultation
 </button>
-</a>
 </div>
 </section>
 
@@ -278,6 +288,338 @@ const observer = new IntersectionObserver(entries => {
 });
 
 faders.forEach(el => observer.observe(el));
+</script>
+
+<script>
+const canvas = document.getElementById("access-grid");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const cellSize = 100;
+let cols = Math.ceil(canvas.width / cellSize);
+let rows = Math.ceil(canvas.height / cellSize);
+
+let corridors = [];
+let tokens = [];
+let clearanceZones = [];
+
+function generateCorridors() {
+    corridors = [];
+
+    // horizontal secure corridors
+    for (let i = 2; i < rows; i += 4) {
+        corridors.push({ type: "horizontal", index: i });
+    }
+
+    // vertical secure corridors
+    for (let i = 3; i < cols; i += 5) {
+        corridors.push({ type: "vertical", index: i });
+    }
+}
+
+function generateClearanceZones() {
+    clearanceZones = [];
+
+    for (let i = 0; i < 6; i++) {
+        clearanceZones.push({
+            col: Math.floor(Math.random() * cols),
+            row: Math.floor(Math.random() * rows),
+            life: 0
+        });
+    }
+}
+
+generateCorridors();
+generateClearanceZones();
+
+function drawBaseGrid() {
+    ctx.strokeStyle = "rgba(99,46,86,0.06)";
+    ctx.lineWidth = 1;
+
+    for (let x = 0; x < cols; x++) {
+        for (let y = 0; y < rows; y++) {
+            ctx.strokeRect(
+                x * cellSize,
+                y * cellSize,
+                cellSize,
+                cellSize
+            );
+        }
+    }
+}
+
+function drawCorridors() {
+    ctx.strokeStyle = "rgba(120,53,85,0.18)";
+    ctx.lineWidth = 2;
+
+    corridors.forEach(c => {
+        if (c.type === "horizontal") {
+            ctx.beginPath();
+            ctx.moveTo(0, c.index * cellSize + cellSize/2);
+            ctx.lineTo(canvas.width, c.index * cellSize + cellSize/2);
+            ctx.stroke();
+        } else {
+            ctx.beginPath();
+            ctx.moveTo(c.index * cellSize + cellSize/2, 0);
+            ctx.lineTo(c.index * cellSize + cellSize/2, canvas.height);
+            ctx.stroke();
+        }
+    });
+}
+
+function spawnToken() {
+
+    if (intersections.length === 0) return;
+
+    const node = intersections[
+        Math.floor(Math.random() * intersections.length)
+    ];
+
+    const directions = [
+        { vx: 3, vy: 0 },
+        { vx: -3, vy: 0 },
+        { vx: 0, vy: 3 },
+        { vx: 0, vy: -3 }
+    ];
+
+    const direction = directions[
+        Math.floor(Math.random() * directions.length)
+    ];
+
+    tokens.push({
+        x: node.x,
+        y: node.y,
+        vx: direction.vx,
+        vy: direction.vy,
+        alpha: 0.35,
+        life: 0
+    });
+}
+
+function drawTokens() {
+
+    tokens.forEach((t, i) => {
+
+        t.x += t.vx;
+        t.y += t.vy;
+        t.alpha -= 0.0015;
+        t.life++;
+
+        if (
+            t.x < 0 || t.x > canvas.width ||
+            t.y < 0 || t.y > canvas.height ||
+            t.alpha <= 0
+        ) {
+            tokens.splice(i, 1);
+            return;
+        }
+
+        // Detect intersection proximity
+        intersections.forEach(node => {
+
+            const dx = t.x - node.x;
+            const dy = t.y - node.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 5 && Math.random() > 0.92) {
+
+                // branch
+                const directions = [
+                    { vx: 3, vy: 0 },
+                    { vx: -3, vy: 0 },
+                    { vx: 0, vy: 3 },
+                    { vx: 0, vy: -3 }
+                ];
+
+                const newDir = directions[
+                    Math.floor(Math.random() * directions.length)
+                ];
+
+                tokens.push({
+                    x: node.x,
+                    y: node.y,
+                    vx: newDir.vx,
+                    vy: newDir.vy,
+                    alpha: 0.3,
+                    life: 0
+                });
+            }
+        });
+
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(99,46,86,${t.alpha})`;
+        ctx.fill();
+    });
+}
+
+function drawClearanceZones() {
+    clearanceZones.forEach(zone => {
+
+        zone.life += 0.01;
+
+        const pulse = 0.1 + Math.sin(zone.life) * 0.05;
+
+        ctx.fillStyle = `rgba(120,53,85,${pulse})`;
+        ctx.fillRect(
+            zone.col * cellSize,
+            zone.row * cellSize,
+            cellSize,
+            cellSize
+        );
+    });
+}
+
+let frame = 0;
+let frames = [];
+
+function generateFrames() {
+    frames = [];
+
+    for (let i = 0; i < 3; i++) {
+        frames.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            width: canvas.width * (0.6 + Math.random() * 0.3),
+            height: canvas.height * (0.5 + Math.random() * 0.3),
+            angle: Math.random() * Math.PI,
+            rotationSpeed: (Math.random() - 0.5) * 0.0005
+        });
+    }
+}
+
+generateFrames();
+
+function drawFrames() {
+    frames.forEach(frame => {
+
+        frame.angle += frame.rotationSpeed;
+
+        ctx.save();
+        ctx.translate(frame.x, frame.y);
+        ctx.rotate(frame.angle);
+
+        ctx.strokeStyle = "rgba(99,46,86,0.06)";
+        ctx.lineWidth = 1.5;
+
+        ctx.strokeRect(
+            -frame.width / 2,
+            -frame.height / 2,
+            frame.width,
+            frame.height
+        );
+
+        ctx.restore();
+    });
+}
+
+let polygons = [];
+
+function generatePolygons() {
+    polygons = [];
+
+    for (let i = 0; i < 4; i++) {
+        polygons.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: 200 + Math.random() * 200,
+            sides: 5 + Math.floor(Math.random() * 3),
+            angle: 0,
+            rotationSpeed: (Math.random() - 0.5) * 0.0003,
+            vx: (Math.random() - 0.5) * 0.1,
+            vy: (Math.random() - 0.5) * 0.1
+        });
+    }
+}
+
+generatePolygons();
+
+function drawPolygons() {
+    polygons.forEach(poly => {
+
+        poly.x += poly.vx;
+        poly.y += poly.vy;
+        poly.angle += poly.rotationSpeed;
+
+        ctx.save();
+        ctx.translate(poly.x, poly.y);
+        ctx.rotate(poly.angle);
+
+        ctx.beginPath();
+
+        for (let i = 0; i < poly.sides; i++) {
+            const theta = (i / poly.sides) * Math.PI * 2;
+            const px = Math.cos(theta) * poly.radius;
+            const py = Math.sin(theta) * poly.radius;
+
+            if (i === 0) {
+                ctx.moveTo(px, py);
+            } else {
+                ctx.lineTo(px, py);
+            }
+        }
+
+        ctx.closePath();
+        ctx.strokeStyle = "rgba(120,53,85,0.04)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.restore();
+    });
+}
+
+function animate() {
+
+    ctx.fillStyle = "rgba(20,15,15,0.18)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawPolygons();
+    drawFrames();
+
+    drawBaseGrid();
+    drawClearanceZones();
+    drawCorridors();
+    drawTokens();
+
+    frame++;
+
+    if (frame % 120 === 0) {
+        spawnToken();
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols = Math.ceil(canvas.width / cellSize);
+    rows = Math.ceil(canvas.height / cellSize);
+    let intersections = [];
+
+function generateIntersections() {
+    intersections = [];
+
+    corridors.forEach(h => {
+        if (h.type === "horizontal") {
+            corridors.forEach(v => {
+                if (v.type === "vertical") {
+                    intersections.push({
+                        x: v.index * cellSize + cellSize/2,
+                        y: h.index * cellSize + cellSize/2
+                    });
+                }
+            });
+        }
+    });
+}
+
+    generateIntersections();
+    generateCorridors();
+});
 </script>
 
 </body>
