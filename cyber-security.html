@@ -207,9 +207,21 @@ footer {
     transform: translateY(0);
 }
 
+#chevalier-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(0.4px);
+}
+
 </style>
 </head>
 <body>
+
+<canvas id="chevalier-bg"></canvas>
 
 <header>
 <nav>
@@ -303,17 +315,16 @@ and neutralize modern threat vectors across enterprise environments.
 <p style="color:var(--muted);">
 Confidential security assessments available upon request.
 </p>
-<a href="contact.html">
 <button>
 Request Security Consultation
 </button>
-</a>
 </div>
 </section>
 
 <footer>
 © 2026 Chevalier, Advanced Security. All rights reserved.
 </footer>
+
 
 <script>
 const faders = document.querySelectorAll('.fade-in');
@@ -327,6 +338,159 @@ const observer = new IntersectionObserver(entries => {
 });
 
 faders.forEach(el => observer.observe(el));
+
+const canvas = document.getElementById("chevalier-bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+/* ---------------------------
+   NETWORK MESH SYSTEM
+---------------------------- */
+
+const nodes = [];
+const nodeCount = 60;
+const maxDistance = 140;
+
+class Node {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+    }
+
+    move() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(99,46,86,0.5)";
+        ctx.fill();
+    }
+}
+
+for (let i = 0; i < nodeCount; i++) {
+    nodes.push(new Node());
+}
+
+function connectNodes() {
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < maxDistance) {
+                ctx.beginPath();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(nodes[j].x, nodes[j].y);
+                ctx.strokeStyle = `rgba(99,46,86,${(1 - distance / maxDistance) * 0.25})`;
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+/* ---------------------------
+   CMATRIX EPIC HACKER MOMENT
+---------------------------- */
+
+const fontSize = 14;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(0);
+
+const characters = "01ABCDEF:/.-";
+
+const logFragments = [
+    "TLS VERIFIED",
+    "AUTH SUCCESS",
+    "PORT 443 OPEN",
+    "SHA256 MATCH",
+    "OSINT NODE",
+    "SCAN COMPLETE"
+];
+
+function drawStreams() {
+    ctx.font = fontSize + "px monospace";
+    ctx.fillStyle = "rgba(120,53,85,0.32)";
+
+    for (let i = 0; i < drops.length; i++) {
+
+        let text;
+
+        if (Math.random() > 0.998) {
+            text = logFragments[Math.floor(Math.random() * logFragments.length)];
+        } else {
+            text = characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
+            drops[i] = 0;
+        }
+
+        drops[i] += 0.35;
+    }
+}
+
+/* ---------------------------
+   THREAT PULSE EFFECT
+---------------------------- */
+
+let pulseIndex = 0;
+let pulseTimer = 0;
+
+function pulse() {
+    pulseTimer++;
+
+    if (pulseTimer > 180) {
+        pulseIndex = Math.floor(Math.random() * nodes.length);
+        pulseTimer = 0;
+    }
+
+    const node = nodes[pulseIndex];
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(99,46,86,0.6)";
+    ctx.stroke();
+}
+
+/* ---------------------------
+   MAIN LOOP
+---------------------------- */
+
+function animate() {
+
+    ctx.fillStyle = "rgba(20,15,15,0.12)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    nodes.forEach(node => {
+        node.move();
+        node.draw();
+    });
+
+    connectNodes();
+    drawStreams();
+    pulse();
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 </script>
 
 </body>
